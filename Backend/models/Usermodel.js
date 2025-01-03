@@ -57,5 +57,15 @@ const UserSchema = new mongoose.Schema({
             ref: "order"
         }
     ],
+    forgot_password_otp:{
+        type:String
+    },
+    forgot_password_expiry:{
+        type:Date,
+    }
     
-})
+},{timestamps:true})
+
+const UserModel = mongoose.model("User",UserSchema)
+
+export default UserModel
