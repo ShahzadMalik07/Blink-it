@@ -99,9 +99,9 @@ export async function verifyEmailController(request, response) {
         })
 
         return response.json({
-            message:"Email verified",
-            error:false,
-            succsess:true
+            message: "Email verified",
+            error: false,
+            succsess: true
         })
 
     } catch (error) {
@@ -116,49 +116,104 @@ export async function verifyEmailController(request, response) {
 }
 
 
-export async function loginController(request,response){
+export async function loginController(request, response) {
     try {
 
         const { email, password } = request.body
-        const user = await UserModel.findOne({email})
+        const user = await UserModel.findOne({ email })
+
+        if (!email || !password) {
+            return response.json({
+                message: "Please give Email and Password",
+                error: true,
+                succsess: false
+            })
+
+        }
 
         if (!user) {
             return response.status(500).json({
-                message:"User doesn't found, please signup",
-                error:true,
-                succsess:false
+                message: "User doesn't found, please signup",
+                error: true,
+                succsess: false
             })
-            
+
         }
 
-        if (user.status !=="Active" ) {
+        if (user.status !== "Active") {
             return response.json({
                 message: "Please contact Admin",
-                error:true,
-                succsess:false
+                error: true,
+                succsess: false
             })
-            
+
         }
 
-        const checkPassword = await bcrypt.compare(password,user.password)
+        const checkPassword = await bcrypt.compare(password, user.password)
 
         if (!checkPassword) {
             return response.json({
-                message:"Password is Incorrect",
-                error:true,
-                succsess:false
+                message: "Password is Incorrect",
+                error: true,
+                succsess: false
             })
-            
+
         }
 
         const accsessToken = generateAccessToken(user._id)
         const refreshToken = generateRefreshToken(user._id)
 
- 
+        console.log(accsessToken, refreshToken)
+
+
+        const cookieOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+        response.cookie("accessToken", accsessToken, cookieOption)
+        response.cookie("refreshToken", refreshToken, cookieOption)
+
+
+        return response.json({
+            message: "Login success",
+            error: false,
+            succsess: true,
+            data: {
+                accsessToken,
+                refreshToken
+            }
+        })
 
 
     } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export async function logoutController(request, response) {
+    try {
+        const cookieOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+        response.clearCookie("accessToken", cookieOption)
+        response.clearCookie("refreshToken", cookieOption)
+
+        return response.json({
+            message: "Logout successfully",
+            error: false,
+            succsess: true
+        })
         
+    } catch (error) {
+        return response.json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
     }
 
 }
