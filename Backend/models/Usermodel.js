@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
     shopping_cart:[
         {
             type:mongoose.Schema.ObjectId,
-            ref: "productCart"
+            ref: "cartProduct"
         }
     ],
     orderHistory:[
@@ -62,10 +62,15 @@ const UserSchema = new mongoose.Schema({
     },
     forgot_password_expiry:{
         type:Date,
+    },
+    role:{
+        type:String,
+        enum: ["USER","ADMIN"],
+        default:"USER"
     }
     
 },{timestamps:true})
 
 const UserModel = mongoose.model("User",UserSchema)
 
-export default UserModel
+export default UserModel 

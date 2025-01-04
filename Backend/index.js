@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import morgan from "morgan"
 import helmet from "helmet"
 import dbConnect from "./config/Dbconnect.js"
+import userRouter from "./routes/user.route.js"
 dotenv.config()
 
 
@@ -29,6 +30,8 @@ app.get("/",(request,response)=>{
         msg:"server is running"
     })
 })
+
+app.use("/api/user",userRouter)
 
 dbConnect()
 
