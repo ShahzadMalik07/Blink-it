@@ -4,6 +4,10 @@ import sendEmail from "../config/sendEmails.js"
 import verifyEmailTemplate from "../utils/verifyTemplate.js";
 import generateAccessToken from "../utils/AccessToken.js";
 import generateRefreshToken from "../utils/RefreshToken.js";
+import imageUplaodCloud from "../utils/imageUplaodCloud.js";
+import generateOtp from "../utils/generateOtp.js";
+import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js";
+import jwt from "jsonwebtoken"
 
 export async function registerUserController(request, response) {
     try {
@@ -163,7 +167,7 @@ export async function loginController(request, response) {
         const accsessToken = generateAccessToken(user._id)
         const refreshToken = generateRefreshToken(user._id)
 
-        console.log(accsessToken, refreshToken)
+
 
 
         const cookieOption = {
@@ -194,6 +198,8 @@ export async function loginController(request, response) {
 
 export async function logoutController(request, response) {
     try {
+
+        const userId = request.userId
         const cookieOption = {
             httpOnly: true,
             secure: true,
@@ -202,12 +208,14 @@ export async function logoutController(request, response) {
         response.clearCookie("accessToken", cookieOption)
         response.clearCookie("refreshToken", cookieOption)
 
+        const removeRefreshToken = await UserModel.findByIdAndUpdate(userId, { refresh_token: "" })
+
         return response.json({
             message: "Logout successfully",
             error: false,
             succsess: true
         })
-        
+
     } catch (error) {
         return response.json({
             message: error.message || error,
@@ -216,4 +224,295 @@ export async function logoutController(request, response) {
         })
     }
 
+}
+
+export async function uploadImage(request, response) {
+
+    try {
+
+        const userId = request.userId
+        const image = request.file
+        const upload = await imageUplaodCloud(image)
+
+
+        const userUpdated = await UserModel.findByIdAndUpdate(userId, {
+            avatar: upload.url
+        })
+        return response.json({
+            message: "upload profle successfully",
+            data: {
+                _id: userId,
+                avatar: upload.url
+            }
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+
+    }
+
+}
+
+export async function updateUserDetails(request, response) {
+    try {
+
+        const userId = request.userId
+
+        const { name, email, password, mobile } = request.body
+        let hashedPassword = ""
+
+        if (password) {
+            const salt = await bcrypt.genSalt(10)
+            hashedPassword = await bcrypt.hash(password, salt)
+
+        }
+
+
+        const updatedUser = await UserModel.updateOne({ _id: userId }, {
+            ...(name && { name: name }),
+            ...(email && { email: email }),
+            ...(mobile && { mobile: mobile }),
+            ...(password && { password: hashedPassword }),
+
+        })
+
+        return response.json({
+            message: "User updated successfully",
+            error: false,
+            succsess: true,
+            data: updatedUser
+
+        })
+
+
+    } catch (error) {
+        return response.json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+    }
+}
+
+
+export async function forgotPassword(request, response) {
+    try {
+        const { email } = request.body
+        const checkUserEmail = await UserModel.findOne({ email })
+        if (!checkUserEmail) {
+            return response.json({
+                message: "Sorry email is not availabe",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        const otp = generateOtp()
+        const expiry = new Date() + 60 * 60 * 1000
+
+        const update = await UserModel.findByIdAndUpdate(checkUserEmail._id, {
+            forgot_password_otp: otp,
+            forgot_password_expiry: new Date(expiry).toISOString()
+
+        })
+
+
+        await sendEmail({
+            sendTo: email,
+            subject: "Forgot password from Blink-it",
+            html: forgotPasswordTemplate({ name: checkUserEmail.name, otp: otp })
+        })
+
+
+        return response.json({
+            message: "check your email",
+            error: false,
+            succsess: true
+        })
+
+
+
+
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+    }
+}
+
+export async function verifyForgotPasswordOtp(request, response) {
+    try {
+
+        const { email, otp } = request.body
+
+        if (!email || !otp) {
+            return response.json({
+                message: "please provide required fields email, otp",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        const user = await UserModel.findOne({ email })
+        if (!user) {
+            return response.json({
+                message: "Sorry email is not availabe",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        const currentTime = new Date().toISOString()
+
+        if (user.forgot_password_expiry < currentTime) {
+            return response.status(400).json({
+                message: "Otp Expired",
+                error: true,
+                succsess: false
+            })
+        }
+
+        if (otp !== user.forgot_password_otp) {
+            return response.json({
+                message: "Invalid Otp",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        return response.json({
+            message: "Otp Verified",
+            error: false,
+            succsess: true
+
+        })
+
+
+
+    } catch (error) {
+        return response.json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+
+    }
+}
+
+export async function resetPassword(request, response) {
+    try {
+
+        const { email, newPassword, confirmPassword } = request.body
+
+        if (!email || !newPassword || !confirmPassword) {
+            return response.json({
+                message: "Please Provide required fields email, newPassword, confirmPassword"
+            })
+
+        }
+
+        const user = await UserModel.findOne({ email })
+        if (!user) {
+            return response.json({
+                message: "Email not exists",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        if (newPassword !== confirmPassword) {
+            return response.status(400).json({
+                message: "passwords not matching",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+        const update = await UserModel.findOneAndUpdate(user._id, {
+            password: hashedPassword
+        })
+
+        return response.json({
+            message: "Password updated Successfully",
+            error: false,
+            succsess: true
+        })
+
+    } catch (error) {
+        return response.json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+
+    }
+}
+
+export async function refreshToken(request, response) {
+    try {
+
+        const token = request.cookies.refreshToken || request?.header?.authorization?.split(" ")[1]
+
+        if (!token) {
+            return response.json({
+                message: "Invalid Token",
+                error: true,
+                succsess: false
+            })
+
+        }
+        const verifyToken = await jwt.verify(token, process.env.REFRESH_JWT_SECRET)
+        if (!verifyToken) {
+            return response.json({
+                message: "token is expired",
+                error: true,
+                succsess: false
+            })
+
+        }
+
+        const userId = verifyToken?._id
+        const newAccessToken = await generateAccessToken(userId)
+
+        const cookieOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+        response.cookie("accessToken", newAccessToken, cookieOption)
+
+        return response.json({
+            message:"New access-token generated",
+            error:false,
+            succsess:true,
+            data:{
+                accessToken:newAccessToken
+            }
+        })
+
+
+    } catch (error) {
+        return response.json({
+            message: error.message || error,
+            error: true,
+            succsess: false
+        })
+
+    }
 }

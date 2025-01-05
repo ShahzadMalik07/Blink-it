@@ -7,6 +7,7 @@ const generateRefreshToken = async (userId) => {
     const updatedRefreshToken = await UserModel.updateOne({ _id: userId }, {
         refresh_token: token
     })
+    return token
 
 }
 
