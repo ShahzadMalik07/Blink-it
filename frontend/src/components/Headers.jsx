@@ -19,7 +19,7 @@ const Headers = () => {
 
 
   return (
-    <header className='h-28 lg:h-24  lg:shadow-md p-2  sticky top-0 flex items-center flex-col justify-center gap-2 '>
+    <header className='h-28 lg:h-24  lg:shadow-md p-2  sticky top-0 flex items-center flex-col justify-center gap-2 bg-white '>
 
       {!(isSearchPage && isMobile) && (<div className=' container mx-auto flex items-center justify-between px-8 '>
         <Link to={"/"}>
