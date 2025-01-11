@@ -17,7 +17,7 @@ export async function registerUserController(request, response) {
             return response.status(400).json({
                 message: "Provide email, name, password",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -25,9 +25,9 @@ export async function registerUserController(request, response) {
         const user = await UserModel.findOne({ email })
         if (user) {
             return response.json({
-                message: "Already register",
+                message: "User already register",
                 error: true,
-                succsess: false
+                success: false
 
             })
 
@@ -60,7 +60,7 @@ export async function registerUserController(request, response) {
         return response.json({
             message: "User register successfully",
             error: false,
-            succsess: true,
+            success: true,
             data: save
         })
 
@@ -76,7 +76,7 @@ export async function registerUserController(request, response) {
         return response.status(500).json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
@@ -92,7 +92,7 @@ export async function verifyEmailController(request, response) {
             return response.status(400).json({
                 message: "invalid code",
                 error: true,
-                succsess: false
+                success: false
             })
 
 
@@ -105,14 +105,14 @@ export async function verifyEmailController(request, response) {
         return response.json({
             message: "Email verified",
             error: false,
-            succsess: true
+            success: true
         })
 
     } catch (error) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
@@ -130,7 +130,7 @@ export async function loginController(request, response) {
             return response.json({
                 message: "Please give Email and Password",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -139,7 +139,7 @@ export async function loginController(request, response) {
             return response.status(500).json({
                 message: "User doesn't found, please signup",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -148,7 +148,7 @@ export async function loginController(request, response) {
             return response.json({
                 message: "Please contact Admin",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -159,7 +159,7 @@ export async function loginController(request, response) {
             return response.json({
                 message: "Password is Incorrect",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -182,7 +182,7 @@ export async function loginController(request, response) {
         return response.json({
             message: "Login success",
             error: false,
-            succsess: true,
+            success: true,
             data: {
                 accsessToken,
                 refreshToken
@@ -213,14 +213,14 @@ export async function logoutController(request, response) {
         return response.json({
             message: "Logout successfully",
             error: false,
-            succsess: true
+            success: true
         })
 
     } catch (error) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
     }
 
@@ -250,7 +250,7 @@ export async function uploadImage(request, response) {
         return response.status(500).json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
@@ -283,7 +283,7 @@ export async function updateUserDetails(request, response) {
         return response.json({
             message: "User updated successfully",
             error: false,
-            succsess: true,
+            success: true,
             data: updatedUser
 
         })
@@ -293,7 +293,7 @@ export async function updateUserDetails(request, response) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
     }
 }
@@ -307,7 +307,7 @@ export async function forgotPassword(request, response) {
             return response.json({
                 message: "Sorry email is not availabe",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -332,7 +332,7 @@ export async function forgotPassword(request, response) {
         return response.json({
             message: "check your email",
             error: false,
-            succsess: true
+            success: true
         })
 
 
@@ -343,7 +343,7 @@ export async function forgotPassword(request, response) {
         return response.status(500).json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
     }
 }
@@ -357,7 +357,7 @@ export async function verifyForgotPasswordOtp(request, response) {
             return response.json({
                 message: "please provide required fields email, otp",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -367,7 +367,7 @@ export async function verifyForgotPasswordOtp(request, response) {
             return response.json({
                 message: "Sorry email is not availabe",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -378,7 +378,7 @@ export async function verifyForgotPasswordOtp(request, response) {
             return response.status(400).json({
                 message: "Otp Expired",
                 error: true,
-                succsess: false
+                success: false
             })
         }
 
@@ -386,7 +386,7 @@ export async function verifyForgotPasswordOtp(request, response) {
             return response.json({
                 message: "Invalid Otp",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -394,7 +394,7 @@ export async function verifyForgotPasswordOtp(request, response) {
         return response.json({
             message: "Otp Verified",
             error: false,
-            succsess: true
+            success: true
 
         })
 
@@ -404,7 +404,7 @@ export async function verifyForgotPasswordOtp(request, response) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
@@ -427,7 +427,7 @@ export async function resetPassword(request, response) {
             return response.json({
                 message: "Email not exists",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -436,7 +436,7 @@ export async function resetPassword(request, response) {
             return response.status(400).json({
                 message: "passwords not matching",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -451,14 +451,14 @@ export async function resetPassword(request, response) {
         return response.json({
             message: "Password updated Successfully",
             error: false,
-            succsess: true
+            success: true
         })
 
     } catch (error) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
@@ -473,7 +473,7 @@ export async function refreshToken(request, response) {
             return response.json({
                 message: "Invalid Token",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -482,7 +482,7 @@ export async function refreshToken(request, response) {
             return response.json({
                 message: "token is expired",
                 error: true,
-                succsess: false
+                success: false
             })
 
         }
@@ -500,7 +500,7 @@ export async function refreshToken(request, response) {
         return response.json({
             message:"New access-token generated",
             error:false,
-            succsess:true,
+            success:true,
             data:{
                 accessToken:newAccessToken
             }
@@ -511,7 +511,7 @@ export async function refreshToken(request, response) {
         return response.json({
             message: error.message || error,
             error: true,
-            succsess: false
+            success: false
         })
 
     }
