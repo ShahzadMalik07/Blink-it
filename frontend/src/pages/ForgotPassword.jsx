@@ -6,15 +6,15 @@ import axios from "axios"
 import Axios from '../utils/Axios';
 import summaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
-import  { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 
 
 const ForgotPassword = () => {
-  const [data, setdata] = useState({  email: "" })
+  const [data, setdata] = useState({ email: "" })
 
- 
+
 
   const valuesAvailable = Object.values(data).every(el => el)
   const navigate = useNavigate()
@@ -28,11 +28,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-   
+
 
     try {
       const response = await axios.put("http://localhost:3000/api/user/forgot-password", data)
-    
+
 
       if (response.data.error) {
         toast.error(response.data.message)
@@ -40,13 +40,19 @@ const ForgotPassword = () => {
       }
       if (response.data.success) {
         toast.success(response.data.message)
-        setdata({
-         
-          email: "",
-      
+
+        navigate("/verify-otp", {
+          state: {
+            data
+          }
         })
-       
-        navigate("/verify-otp")
+        setdata({
+
+          email: "",
+
+        })
+
+
 
       }
 
@@ -78,9 +84,9 @@ const ForgotPassword = () => {
               onChange={handleChange} />
           </div>
 
-       
-         
-         
+
+
+
 
           <button disabled={!valuesAvailable} className={`mt-5 ${valuesAvailable ? "bg-green-800 hover:bg-green-700" : "bg-gray-600"}  text-white rounded  py-2 font-semibold tracking-wide`}>Send Otp</button>
 

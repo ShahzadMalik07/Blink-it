@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import toast from 'react-hot-toast';
@@ -6,18 +6,29 @@ import axios from "axios"
 import Axios from '../utils/Axios';
 import summaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 
 
 
 const VerifyOtp = () => {
     const [data, setdata] = useState(["", "", "", "", "", ""])
+    const inputRef = useRef([])
+    const location = useLocation()
+    
 
 
 
     const valuesAvailable = data.every(el => el)
     const navigate = useNavigate()
+  
+    useEffect(() => {
+        if (!location?.state?.data?.email) {
+            navigate("/forgot-password")
+           
+
+        }
+    }, [])
 
 
 
@@ -26,7 +37,7 @@ const VerifyOtp = () => {
 
 
         try {
-            const response = await axios.put("http://localhost:3000/api/user/verify-forgot-password", data)
+            const response = await axios.put("http://localhost:3000/api/user/verify-forgot-password", { otp: data?.join(""), email: location?.state?.data?.email })
 
 
             if (response.data.error) {
@@ -63,11 +74,27 @@ const VerifyOtp = () => {
                             {
                                 data.map((element, index) => {
                                     return (
-                                        <input id='otp'
+                                        <input key={index} id='otp'
+                                            ref={(ref) => {
+                                                inputRef.current[index] = ref
+
+                                                return ref
+
+                                            }}
                                             type="text"
                                             value={data[index]}
-                                            onChange={(e)=>{
-                                                const value = e.target.value 
+                                            onChange={(e) => {
+                                                const value = e.target.value
+                                                const myData = [...data]
+                                                myData[index] = value
+                                                setdata(myData)
+
+                                                if (value && index < 5) {
+                                                    inputRef.current[index + 1].focus()
+
+
+                                                }
+
                                             }}
                                             maxLength={1}
                                             className='w-10 text-center font-semibold text-lg lg:w-14 bg-blue-50 p-2 rounded border focus:border-primary-200 outline-none'
