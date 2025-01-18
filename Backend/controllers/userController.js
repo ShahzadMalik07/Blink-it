@@ -164,8 +164,8 @@ export async function loginController(request, response) {
 
         }
 
-        const accsessToken = generateAccessToken(user._id)
-        const refreshToken = generateRefreshToken(user._id)
+        const accsessToken = await generateAccessToken(user._id)
+        const refreshToken = await generateRefreshToken(user._id)
 
 
 

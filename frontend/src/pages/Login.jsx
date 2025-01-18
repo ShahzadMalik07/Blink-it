@@ -40,6 +40,7 @@ const Login = () => {
       }
       if (response.data.success) {
         toast.success(response.data.message)
+        localStorage.setItem("accsessToken",response.data.data.accsessToken)
         setdata({
          
           email: "",

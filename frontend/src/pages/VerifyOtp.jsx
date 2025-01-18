@@ -48,7 +48,12 @@ const VerifyOtp = () => {
                 toast.success(response.data.message)
                 setdata(["", "", "", "", "", ""])
 
-                navigate("/verify-otp")
+                navigate("/reset-password",{
+                    state:{
+                        data:response.data,
+                        email: location?.state?.data?.email
+                    }
+                })
 
             }
 
