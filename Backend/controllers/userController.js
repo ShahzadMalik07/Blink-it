@@ -171,9 +171,9 @@ export async function loginController(request, response) {
 
 
         const cookieOption = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None"
+            httpOnly : true,
+            secure : true,
+            sameSite : "None"
         }
         response.cookie("accessToken", accsessToken, cookieOption)
         response.cookie("refreshToken", refreshToken, cookieOption)
