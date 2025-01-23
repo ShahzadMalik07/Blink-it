@@ -5,12 +5,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaUserCircle } from "react-icons/fa";
 import useMobile from '../hooks/useMobiles';
 import { GiShoppingCart } from "react-icons/gi";
+import { useSelector } from 'react-redux';
 
 const Headers = () => {
   const [isMobile] = useMobile()
   const location = useLocation()
   const isSearchPage = location.pathname === "/search"
   const navigate = useNavigate()
+  const userdetails = useSelector((store)=>store.user)
+  console.log(userdetails)
 
   const redirectToLogin = () => {
     navigate("/login")
