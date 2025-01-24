@@ -166,17 +166,20 @@ export async function loginController(request, response) {
 
         const accsessToken = await generateAccessToken(user._id)
         const refreshToken = await generateRefreshToken(user._id)
+       
+
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
+            last_login_date: new Date()
+        })
 
 
-
-
-        const cookieOption = {
-            httpOnly : true,
-            secure : true,
-            sameSite : "None"
-        }
-        response.cookie("accessToken", accsessToken, cookieOption)
-        response.cookie("refreshToken", refreshToken, cookieOption)
+        const cookieOptions = {
+            httpOnly: true,
+            secure: false, 
+            sameSite: "Lax",
+          };
+        response.cookie("accessToken", accsessToken, cookieOptions)
+        response.cookie("refreshToken", refreshToken, cookieOptions)
 
 
         return response.json({
@@ -390,6 +393,10 @@ export async function verifyForgotPasswordOtp(request, response) {
             })
 
         }
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id,{
+            forgot_password_otp:"",
+            forgot_password_expiry:""
+        })
 
         return response.json({
             message: "Otp Verified",
@@ -498,11 +505,11 @@ export async function refreshToken(request, response) {
         response.cookie("accessToken", newAccessToken, cookieOption)
 
         return response.json({
-            message:"New access-token generated",
-            error:false,
-            success:true,
-            data:{
-                accessToken:newAccessToken
+            message: "New access-token generated",
+            error: false,
+            success: true,
+            data: {
+                accessToken: newAccessToken
             }
         })
 
@@ -514,5 +521,26 @@ export async function refreshToken(request, response) {
             success: false
         })
 
+    }
+}
+
+export async function userDetails(request, response) {
+    try {
+        const userId = request.userId
+
+        const user = await UserModel.findById(userId).select("-password -refresh_token")
+        return response.json({
+            message: "user details availabe",
+            error: false,
+            success: true,
+            data: user
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: "Something wrong",
+            error: true,
+            success: false
+        })
     }
 }

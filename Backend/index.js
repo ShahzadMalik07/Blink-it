@@ -12,31 +12,31 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    credentials:true,
-    origin:process.env.FRONTEND_URL
+    origin: "http://localhost:5173",
+    credentials: true,
 }))
-
+app.options("*", cors());
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan())
 app.use(helmet({
-    crossOriginResourcePolicy : false
+    crossOriginResourcePolicy: false
 
 }))
 
 
-app.get("/",(request,response)=>{
+app.get("/", (request, response) => {
     response.json({
-        msg:"server is running"
+        msg: "server is running"
     })
 })
 
-app.use("/api/user",userRouter)
+app.use("/api/user", userRouter)
 
 dbConnect()
 
 const PORT = 3000 || process.env.PORT
 
-app.listen(PORT,()=>{
-    console.log("port is running",PORT)
+app.listen(PORT, () => {
+    console.log("port is running", PORT)
 })

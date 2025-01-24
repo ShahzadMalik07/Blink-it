@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { forgotPassword, loginController, logoutController, refreshToken, registerUserController, resetPassword, updateUserDetails, uploadImage, verifyEmailController, verifyForgotPasswordOtp } from "../controllers/userController.js"
+import { forgotPassword, loginController, logoutController, refreshToken, registerUserController, resetPassword, updateUserDetails, uploadImage, userDetails, verifyEmailController, verifyForgotPasswordOtp } from "../controllers/userController.js"
 import auth from "../middleware/authMiddleware.js"
 import upload from "../middleware/multer.js"
 
@@ -16,4 +16,5 @@ userRouter.put("/forgot-password",forgotPassword)
 userRouter.put("/verify-forgot-password",verifyForgotPasswordOtp)
 userRouter.put("/reset-password",resetPassword)
 userRouter.post("/refresh-token",refreshToken)
+userRouter.get("/user-details",auth,userDetails)
 export default userRouter

@@ -11,7 +11,7 @@ const auth =  (request, response, next) => {
             
         }
 
-        const decoded = jwt.verify(token,process.env.ACCESS_JWT_SECRET)
+        const decoded = jwt.verify(token,process.env.ACCESS_JWT_SECRET || "iknowthisissecret")
    
         if (!decoded) {
             return response.json({
