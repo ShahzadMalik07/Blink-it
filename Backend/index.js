@@ -10,12 +10,14 @@ dotenv.config()
 
 
 const app = express()
+const corsOptions ={
+    origin:'http://localhost:5173/login', 
+    credentials:true,           
+    optionSuccessStatus:200
+}
 
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-}))
-app.options("*", cors());
+app.use(cors(corsOptions))
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan())

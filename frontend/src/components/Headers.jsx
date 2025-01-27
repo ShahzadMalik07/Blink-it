@@ -12,8 +12,8 @@ const Headers = () => {
   const location = useLocation()
   const isSearchPage = location.pathname === "/search"
   const navigate = useNavigate()
-  const userdetails = useSelector((store) => store.user)
-  console.log(userdetails)
+  const user = useSelector((store) => store.user)
+  console.log(user)
 
   const redirectToLogin = () => {
     navigate("/login")
@@ -33,7 +33,17 @@ const Headers = () => {
 
 
         <div className='hidden lg:flex items-center gap-10 '>
-          <button onClick={redirectToLogin} >Login</button>
+          {
+            user?._id?(
+              <div>
+                <div>
+                  <p>Account</p>
+                </div>
+
+              </div>
+            ):(<button onClick={redirectToLogin} >Login</button>)
+          }
+          
           {/* add to cart */}
           <button className='flex items-center gap-2 bg-green-800 hover:bg-green-700 py-2 px-2 rounded text-white '>
             <div className='animate-bounce' ><GiShoppingCart size={32} /></div>
