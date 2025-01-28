@@ -6,6 +6,8 @@ import { FaUserCircle } from "react-icons/fa";
 import useMobile from '../hooks/useMobiles';
 import { GiShoppingCart } from "react-icons/gi";
 import { useSelector } from 'react-redux';
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import UserMenu from './UserMenu';
 
 const Headers = () => {
   const [isMobile] = useMobile()
@@ -35,9 +37,19 @@ const Headers = () => {
         <div className='hidden lg:flex items-center gap-10 '>
           {
             user?._id?(
-              <div>
-                <div>
+              <div className='relative'>
+                <div className='flex items-center'>
                   <p>Account</p>
+                  <GoTriangleDown size={22} />
+                  <GoTriangleUp size={22} />
+                
+                </div>
+                <div className='absolute right-0 h-20'>
+                  <div className='bg-white rounded p-4 min-w-52 shadow-lg'>
+                    <UserMenu/>
+
+                  </div>
+
                 </div>
 
               </div>
