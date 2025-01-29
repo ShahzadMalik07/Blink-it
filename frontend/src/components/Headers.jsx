@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from "../assets/logo.png"
 import Search from './Search'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ const Headers = () => {
   const isSearchPage = location.pathname === "/search"
   const navigate = useNavigate()
   const user = useSelector((store) => store.user)
-  console.log(user)
+  const [isMenuOpen, setisMenuOpen] = useState(false)
 
   const redirectToLogin = () => {
     navigate("/login")
@@ -36,26 +36,29 @@ const Headers = () => {
 
         <div className='hidden lg:flex items-center gap-10 '>
           {
-            user?._id?(
+            user?._id ? (
               <div className='relative'>
-                <div className='flex items-center'>
+                <div onClick={() => { setisMenuOpen((prev) => !prev) }} className='flex gap-1 cursor-pointer select-none'>
                   <p>Account</p>
-                  <GoTriangleDown size={22} />
-                  <GoTriangleUp size={22} />
-                
+                  {
+                    isMenuOpen ? (<GoTriangleUp size={25} />) : (<GoTriangleDown size={25} />)
+                  }
+
+
+
                 </div>
-                <div className='absolute right-0 h-20'>
+                {isMenuOpen &&(<div className='absolute right-0 h-20'>
                   <div className='bg-white rounded p-4 min-w-52 shadow-lg'>
-                    <UserMenu/>
+                    <UserMenu />
 
                   </div>
 
-                </div>
+                </div>)}
 
               </div>
-            ):(<button onClick={redirectToLogin} >Login</button>)
+            ) : (<button onClick={redirectToLogin} >Login</button>)
           }
-          
+
           {/* add to cart */}
           <button className='flex items-center gap-2 bg-green-800 hover:bg-green-700 py-2 px-2 rounded text-white '>
             <div className='animate-bounce' ><GiShoppingCart size={32} /></div>
