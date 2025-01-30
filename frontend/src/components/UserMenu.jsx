@@ -7,21 +7,26 @@ import toast from 'react-hot-toast'
 import { logout } from '../store/userSlice'
 import AxiosToastError from '../utils/AxiosToastError'
 
-const UserMenu = () => {
+const UserMenu = ({ close }) => {
     const user = useSelector((store) => store.user)
     const dispatch = useDispatch()
     const handleLogout = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/user/logout")
+            const response = await axios.get("http://localhost:3000/api/user/logout", { withCredentials: true })
             if (response.data.success) {
+                if (close) {
+                    close()
+                }
+
                 dispatch(logout())
                 localStorage.clear()
                 toast.success(response.data.message)
-                
+
             }
 
         } catch (error) {
             AxiosToastError(error)
+            console.log(error)
 
         }
 

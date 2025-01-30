@@ -6,15 +6,18 @@ import axios from "axios"
 import Axios from '../utils/Axios';
 import summaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
-import  { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import fetchUserDetails from '../utils/getUserDetails';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from "../store/userSlice"
 
 
 
 
 const Login = () => {
-  const [data, setdata] = useState({  email: "", password: "", })
+  const [data, setdata] = useState({ email: "", password: "", })
   const [showPassword, setshowPassword] = useState(false)
- 
+  const dispatch = useDispatch()
 
   const valuesAvailable = Object.values(data).every(el => el)
   const navigate = useNavigate()
@@ -28,11 +31,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-   
+
 
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", data,{ withCredentials:true })
-    
+      const response = await axios.post("http://localhost:3000/api/user/login", data, { withCredentials: true })
+
 
       if (response.data.error) {
         toast.error(response.data.message)
@@ -40,15 +43,18 @@ const Login = () => {
       }
       if (response.data.success) {
         toast.success(response.data.message)
-        localStorage.setItem("accsessToken",response.data.data.accsessToken)
-        localStorage.setItem("refreshToken",response.data.data.refreshToken)
+        localStorage.setItem("accsessToken", response.data.data.accsessToken)
+        localStorage.setItem("refreshToken", response.data.data.refreshToken)
+
+        const userDetails = await fetchUserDetails()
+        dispatch(setUserDetails(userDetails?.data))
         setdata({
-         
+
           email: "",
           password: "",
-      
+
         })
-       
+
         navigate("/")
 
       }
@@ -99,7 +105,7 @@ const Login = () => {
 
           </div>
           <Link to={"/forgot-password"} className='hover:text-primary-200 block ml-auto ' >Forgot Password?</Link>
-         
+
 
           <button disabled={!valuesAvailable} className={`mt-5 ${valuesAvailable ? "bg-green-800 hover:bg-green-700" : "bg-gray-600"}  text-white rounded  py-2 font-semibold tracking-wide`}>Login</button>
 
