@@ -1,15 +1,17 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Divider from './Divider'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { logout } from '../store/userSlice'
 import AxiosToastError from '../utils/AxiosToastError'
+import { FiExternalLink } from "react-icons/fi";
 
 const UserMenu = ({ close }) => {
     const user = useSelector((store) => store.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const handleLogout = async () => {
         try {
             const response = await axios.get("http://localhost:3000/api/user/logout", { withCredentials: true })
@@ -21,6 +23,7 @@ const UserMenu = ({ close }) => {
                 dispatch(logout())
                 localStorage.clear()
                 toast.success(response.data.message)
+                navigate("/")
 
             }
 
@@ -35,13 +38,16 @@ const UserMenu = ({ close }) => {
     }
     return (
         <div>
-            <div className='font-semibold'>My Account</div>
-            <div className='text-sm'>{user?.name || user?.mobile}</div>
+            <div className='font-semibold mb-1'>My Account</div>
+            <div className='text-sm flex items-center gap-2'>
+                <span className='max-w-52 text-ellipsis line-clamp-1'>{user?.name || user?.mobile}</span>
+                <Link to={"/dashboard/profile"} className='hover:text-primary-100' ><FiExternalLink size={16}/></Link>
+            </div>
             <Divider />
             <div className='text-sm grid gap-2 '>
-                <Link to={""}>My Orders</Link>
-                <Link to={""}>Save Address</Link>
-                <button onClick={handleLogout} className='text-left'>Log Out</button>
+                <Link className='hover:bg-blue-400 p-1 rounded' to={""}>My Orders</Link>
+                <Link to={""}className='hover:bg-blue-400 p-1 rounded' >Save Address</Link>
+                <button onClick={handleLogout} className='text-left hover:bg-blue-400 p-1 rounded'>Log Out</button>
             </div>
         </div>
     )
