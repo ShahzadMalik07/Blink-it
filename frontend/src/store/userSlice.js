@@ -32,10 +32,13 @@ const userSlice = createSlice({
             state.shopping_cart = []
             state.orderHistory = []
             state.role = ""
+        },
+        updateImage:(state,action)=>{
+            state.avatar = action.payload
         }
 
     }
 })
 
-export const { setUserDetails, logout } = userSlice.actions
+export const { setUserDetails, logout, updateImage } = userSlice.actions
 export default userSlice.reducer 

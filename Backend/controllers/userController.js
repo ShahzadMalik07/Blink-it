@@ -243,6 +243,8 @@ export async function uploadImage(request, response) {
         })
         return response.json({
             message: "upload profle successfully",
+            error:false,
+            success:true,
             data: {
                 _id: userId,
                 avatar: upload.url

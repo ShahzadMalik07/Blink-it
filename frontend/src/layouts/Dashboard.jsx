@@ -1,5 +1,6 @@
 import React from 'react'
 import UserMenu from '../components/UserMenu'
+import { Outlet } from 'react-router-dom'
 
 const Dashboard = () => {
   return (
@@ -11,7 +12,7 @@ const Dashboard = () => {
         </div>
 
         <div className='bg-white p-4'>
-          content 
+          <Outlet/>
 
         </div>
 
