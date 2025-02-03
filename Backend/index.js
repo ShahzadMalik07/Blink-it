@@ -6,6 +6,7 @@ import morgan from "morgan"
 import helmet from "helmet"
 import dbConnect from "./config/Dbconnect.js"
 import userRouter from "./routes/user.route.js"
+import categoryRouter from "./routes/category.route.js"
 dotenv.config()
 
 
@@ -34,6 +35,7 @@ app.get("/", (request, response) => {
 })
 
 app.use("/api/user", userRouter)
+app.use("/api/category",categoryRouter)
 
 dbConnect()
 
