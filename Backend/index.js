@@ -37,7 +37,7 @@ app.get("/", (request, response) => {
 
 app.use("/api/user", userRouter)
 app.use("/api/category",categoryRouter)
-app.use("api/file",imageUploadRouter)
+app.use("/api/file",imageUploadRouter)
 
 dbConnect()
 

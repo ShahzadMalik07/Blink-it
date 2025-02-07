@@ -2,8 +2,8 @@ import categoryModel from "../models/CategoryModel.js";
 
 export const AddCategoryController= async(request,response)=>{
     try {
-        const { name, image } = request.body
-        if (!name || !image) {
+        const { name, Image } = request.body
+        if (!name || !Image) {
             return response.json({
                 message:"Enter required fields",
                 error:true,
@@ -13,7 +13,7 @@ export const AddCategoryController= async(request,response)=>{
         }
         const addCategory = categoryModel({
             name,
-            image
+            Image
         })
         const save = await addCategory.save()
         if (!save) {
@@ -39,3 +39,23 @@ export const AddCategoryController= async(request,response)=>{
         })
     }
 } 
+
+export const getCategoryController = async (request,response)=>{
+    try {
+        const data = await categoryModel.find()
+        return response.json({
+            message:"Get data",
+            success:true,
+            error:false,
+            data:data
+        })
+        
+    } catch (error) {
+        return response.json({
+            message:error.message || error,
+            success:false,
+            error:true
+        })
+        
+    }
+}

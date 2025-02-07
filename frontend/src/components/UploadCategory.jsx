@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { IoClose } from "react-icons/io5";
+import uploadImage from '../utils/UploadImage.js';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import AxiosToastError from '../utils/AxiosToastError.js';
 
 const UploadCategory = ({ close }) => {
     const [data, setdata] = useState({
         name: "",
         Image: ""
     })
+    const [loading, setloading] = useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -18,17 +23,44 @@ const UploadCategory = ({ close }) => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        try {
+            setloading(true)
+            const response = await axios.post("http://localhost:3000/api/category/add-category",data,{withCredentials:true})
+            const {data:responseData} = response
+            if (responseData.success) {
+                toast.success(responseData.message)
+                close()
+                
+            }
+            
+        } catch (error) {
+            AxiosToastError(error)
+            
+        }finally{
+            setloading(false)
+        }
     }
 
-    const handleUploadImage = (e)=>{
+    const handleUploadImage = async (e) => {
         const file = e.target.files[0]
 
         if (!file) {
             return
-            
+
         }
+
+        const response = await uploadImage(file)
+        const { data: imageResponse } = response
+       
+        setdata((prev) => {
+            return {
+                ...prev,
+                Image: imageResponse.data.url
+            }
+        })
+        
 
     }
     return (
@@ -49,15 +81,21 @@ const UploadCategory = ({ close }) => {
                         <p>Image</p>
                         <div className='flex flex-col lg:flex-row gap-4 items-center '>
                             <div className='border flex items-center justify-center bg-blue-50 h-36 lg:w-36 w-full'>
-                                <p className='text-sm text-neutral-800'>No Image</p>
+                                {
+                                    data.Image ? (
+                                        <img src={data.Image} alt="category" className='h-full w-full object-scale-down' />
+                                    ) : (<p className='text-sm text-neutral-800'>No Image</p>)
+                                }
                             </div>
                             <label htmlFor="uploadCategoryImage">
-                                <div disabled={!data.name} className={`px-2 py-1 rounded ${!data.name ? "bg-gray-400" : "bg-primary-200"} cursor-pointer `}>Upload Image</div>
-                                <input id='uploadCategoryImage' onChange={handleUploadImage} type="file" className='hidden' />
+                                <div className={`px-2 py-1 rounded ${!data.name ? "bg-gray-400" : "bg-primary-200"} cursor-pointer `}>Upload Image</div>
+                                <input disabled={!data.name} id='uploadCategoryImage' onChange={handleUploadImage} type="file" className='hidden' />
                             </label>
                         </div>
 
                     </div>
+
+                    <button className={`${data.name && data.Image?"bg-primary-200":"bg-gray-400" } py-2 font-semibold `}>Add category</button>
                 </form>
             </div>
 
