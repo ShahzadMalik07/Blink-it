@@ -14,7 +14,12 @@ const Category = () => {
     setloading(true)
     try {
       const response = await axios.get("http://localhost:3000/api/category/get-category")
-
+      const { data: responseData } = response
+      console.log(responseData)
+      if (responseData.success) {
+         setcategoryData(responseData.data)
+        
+      }
     } catch (error) {
       AxiosToastError(error)
     } finally {
