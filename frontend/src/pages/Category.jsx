@@ -43,6 +43,15 @@ const Category = () => {
         )
       }
       {
+        categoryData.map((cat)=>{
+          return(
+            <div>
+              <img src={cat.image} alt={cat.name} className='w-52' />
+            </div>
+          )
+        })
+      }
+      {
         loading ? <Loading /> : ""
       }
 
