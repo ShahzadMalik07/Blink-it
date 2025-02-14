@@ -45,7 +45,7 @@ const Category = () => {
       {
         categoryData.map((cat)=>{
           return(
-            <div>
+            <div className='w-40 h-56 bg-[#edf4ff]'>
               <img src={cat.image} alt={cat.name} className='w-52' />
             </div>
           )
