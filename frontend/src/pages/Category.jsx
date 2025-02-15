@@ -17,8 +17,9 @@ const Category = () => {
       const { data: responseData } = response
       console.log(responseData)
       if (responseData.success) {
-         setcategoryData(responseData.data)
-        
+        setcategoryData(responseData.data)
+        console.log(categoryData)
+
       }
     } catch (error) {
       AxiosToastError(error)
@@ -42,22 +43,25 @@ const Category = () => {
           <NoData />
         )
       }
-      {
-        categoryData.map((cat)=>{
-          return(
-            <div className='w-40 h-56 bg-[#edf4ff]'>
-              <img src={cat.image} alt={cat.name} className='w-52' />
-            </div>
-          )
-        })
-      }
+      <div className='p-3 flex'>
+        {
+          categoryData.map((cat) => {
+            return (
+              <div className='w-40 h-56 bg-[#edf4ff]'>
+                <img src={cat.Image} alt={cat.name} className='w-52' />
+              </div>
+            )
+          })
+        }
+      </div>
+
       {
         loading ? <Loading /> : ""
       }
 
 
 
-      {openUploadCategory && <UploadCategory close={() => setopenUploadCategory(false)} />}
+      {openUploadCategory && <UploadCategory getData={getCategoryData} close={() => setopenUploadCategory(false)} />}
 
     </div>
   )

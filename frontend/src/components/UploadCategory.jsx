@@ -5,7 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError.js';
 
-const UploadCategory = ({ close }) => {
+const UploadCategory = ({ close, getData }) => {
     const [data, setdata] = useState({
         name: "",
         Image: ""
@@ -32,6 +32,7 @@ const UploadCategory = ({ close }) => {
             if (responseData.success) {
                 toast.success(responseData.message)
                 close()
+                getData()
                 
             }
             
