@@ -59,3 +59,30 @@ export const getCategoryController = async (request,response)=>{
         
     }
 }
+
+export const updateCategoryController = async (request,response)=>{
+    try {
+        const {categoryId, name, Image} = request.body
+
+        const update = await categoryModel.updateOne({
+            _id:categoryId
+        },{
+            name,
+            Image
+        })
+        return response.json({
+            message:"Updates Succesfully",
+            error:false,
+            success:true,
+            data:update
+        })
+        
+    } catch (error) {
+        return response.json({
+            message:error.message || error,
+            success:false,
+            error:true
+        })
+        
+    }
+}

@@ -10,6 +10,7 @@ const UploadCategory = ({ close, getData }) => {
         name: "",
         Image: ""
     })
+    
     const [loading, setloading] = useState(false)
 
     const handleChange = (e) => {

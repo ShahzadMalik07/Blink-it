@@ -43,12 +43,12 @@ const Category = () => {
           <NoData />
         )
       }
-      <div className='p-3 flex'>
+      <div className='p-3 grid grid-cols-2 lg:grid-cols-6 lg:ml-8'>
         {
           categoryData.map((cat) => {
             return (
-              <div className='w-40 h-56 bg-[#edf4ff]'>
-                <img src={cat.Image} alt={cat.name} className='w-52' />
+              <div className='w-32 h-48 m-1 rounded shadow-md'>
+                <img src={cat.Image} alt={cat.name} className='w-full object-scale-down' />
               </div>
             )
           })
