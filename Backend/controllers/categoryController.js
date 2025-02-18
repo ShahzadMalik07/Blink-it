@@ -1,4 +1,6 @@
 import categoryModel from "../models/CategoryModel.js";
+import productModel from "../models/productModel.js";
+import subCategoryModel from "../models/SubCategoryModel.js";
 
 export const AddCategoryController = async (request, response) => {
     try {
@@ -90,7 +92,20 @@ export const updateCategoryController = async (request, response) => {
 export const deleteCategoryController = async (request, response) => {
     try {
         const {_id } = request.body
-        const response = await categoryModel.deleteOne({_id})
+        const subCategory = await subCategoryModel.find({
+            categoryId:{
+                "$in":[_id]
+            }
+        }).countDocuments()
+        
+        const product = await productModel.find({
+            category:{
+                "$in":[_id]
+            }
+        }).countDocuments()
+
+
+
         return response.json({
             message:"Delete Successfully",
             error:false,
