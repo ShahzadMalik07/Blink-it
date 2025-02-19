@@ -104,6 +104,22 @@ export const deleteCategoryController = async (request, response) => {
             }
         }).countDocuments()
 
+        if (subCategory>0 || product>0) {
+            return response.json({
+                message:"Can't delete Category already use",
+                error:true,
+                success:false
+            })
+            
+        }
+
+        const deleteCategory = await categoryModel.deleteOne({_id:_id})
+        return response.json({
+            message:"Category Deleted Successfully",
+            success:false,
+            error:true
+        })
+
 
 
         return response.json({
