@@ -5,12 +5,18 @@ import axios from 'axios'
 import Loading from '../components/Loading'
 import NoData from '../components/NoData'
 import UpdateCategory from '../components/UpdateCategory'
+import DialogBox from '../components/DialogBox'
+import toast from 'react-hot-toast'
 
 const Category = () => {
   const [openUploadCategory, setopenUploadCategory] = useState(false)
   const [loading, setloading] = useState(true)
   const [categoryData, setcategoryData] = useState([])
   const [editOpen, seteditOpen] = useState(false)
+  const [dialogOpen, setdialogOpen] = useState(false)
+  const [categoryId, setcategoryId] = useState({
+    _id: ""
+  })
   const [editData, seteditData] = useState({
     name: "",
     Image: ""
@@ -22,7 +28,7 @@ const Category = () => {
     try {
       const response = await axios.get("http://localhost:3000/api/category/get-category")
       const { data: responseData } = response
-      console.log(responseData)
+
 
 
       if (responseData.success) {
@@ -42,7 +48,28 @@ const Category = () => {
 
   }, [])
 
- 
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete("http://localhost:3000/api/category/delete", {data:categoryId})
+
+      const { data: responseData } = response
+      
+      if (responseData.success) {
+        toast.success(responseData.message)
+        getCategoryData()
+        setdialogOpen(false)
+
+      }
+
+
+    } catch (error) {
+      AxiosToastError(error)
+
+    }
+
+  }
+
+
 
   return (
     <div>
@@ -59,7 +86,7 @@ const Category = () => {
         {
           categoryData.map((cat) => {
             return (
-              <div className='w-32 h-56 m-1 rounded shadow-md'>
+              <div className='w-32 h-56 m-1 rounded shadow-md' key={cat._id}>
                 <img src={cat.Image} alt={cat.name} className='w-full object-scale-down' />
 
                 <div className='flex gap-2  items-center'>
@@ -67,7 +94,10 @@ const Category = () => {
                     seteditOpen(true)
                     seteditData(cat)
                   }} className='flex-1 py-1 bg-green-100  text-green-600 hover:bg-green-200  rounded'>Edit</button>
-                  <button  className='flex-1 py-1 bg-red-100 text-red-500 hover:bg-red-200 rounded '>Delete</button>
+                  <button onClick={() => {
+                    setdialogOpen(true)
+                    setcategoryId(cat)
+                  }} className='flex-1 py-1 bg-red-100 text-red-500 hover:bg-red-200 rounded '>Delete</button>
                 </div>
               </div>
             )
@@ -86,6 +116,10 @@ const Category = () => {
       {editOpen && (
         <UpdateCategory close={() => seteditOpen(false)} getData={getCategoryData} categoryData={editData} />
       )}
+
+      {
+        dialogOpen && <DialogBox close={() => setdialogOpen(false)} confirm={handleDelete} />
+      }
 
     </div>
   )

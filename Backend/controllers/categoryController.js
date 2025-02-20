@@ -44,7 +44,7 @@ export const AddCategoryController = async (request, response) => {
 
 export const getCategoryController = async (request, response) => {
     try {
-        const data = await categoryModel.find()
+        const data = await categoryModel.find().sort({createdAt:-1})
         return response.json({
             message: "Get data",
             success: true,
@@ -116,17 +116,11 @@ export const deleteCategoryController = async (request, response) => {
         const deleteCategory = await categoryModel.deleteOne({_id:_id})
         return response.json({
             message:"Category Deleted Successfully",
-            success:false,
-            error:true
-        })
-
-
-
-        return response.json({
-            message:"Delete Successfully",
+            success:true,
             error:false,
-            success:true
+            data:deleteCategory
         })
+
 
     } catch (error) {
         return response.json({
