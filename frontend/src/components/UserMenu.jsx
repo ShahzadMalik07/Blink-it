@@ -49,6 +49,7 @@ const UserMenu = ({ close }) => {
             <div className='font-semibold mb-1'>My Account</div>
             <div className='text-sm flex items-center gap-2'>
                 <span className='max-w-52 text-ellipsis line-clamp-1'>{user?.name || user?.mobile}</span>
+                <span className='text-md text-green-700'>{user?.role==="ADMIN"?"(Admin)":""}</span>
                 <Link onClick={handleClose} to={"/dashboard/profile"} className='hover:text-primary-100' ><FiExternalLink size={16} /></Link>
             </div>
             <Divider />

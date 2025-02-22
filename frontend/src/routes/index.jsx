@@ -16,6 +16,7 @@ import Category from "../pages/Category"
 import SubCategory from "../pages/SubCategory"
 import UploadProducts from "../pages/UploadProducts"
 import Products from "../pages/Products"
+import AdminAccess from "../layouts/AdminAccess"
 
 const router = createBrowserRouter([
     {
@@ -52,41 +53,41 @@ const router = createBrowserRouter([
                 element: <ResetPassword />
             },
             {
-                path:"user",
-                element:<UserMenuMobile/>
+                path: "user",
+                element: <UserMenuMobile />
 
             },
             {
-                path:"/dashboard",
-                element:<Dashboard/>,
-                children:[
+                path: "/dashboard",
+                element: <Dashboard />,
+                children: [
                     {
-                        path:"profile",
-                        element:<Profile/>
+                        path: "profile",
+                        element: <Profile />
                     },
                     {
-                        path:"myorders",
-                        element:<MyOrders/>
+                        path: "myorders",
+                        element: <MyOrders />
                     },
                     {
-                        path:"address",
-                        element:<Address/>
+                        path: "address",
+                        element: <Address />
                     },
                     {
-                        path:"category",
-                        element:<Category/>
+                        path: "category",
+                        element: <AdminAccess><Category /></AdminAccess>
                     },
                     {
-                        path:"subcategory",
-                        element:<SubCategory/>
+                        path: "subcategory",
+                        element: <AdminAccess><SubCategory /></AdminAccess>
                     },
                     {
-                        path:"upload-products",
-                        element:<UploadProducts/>
+                        path: "upload-products",
+                        element: <AdminAccess><UploadProducts /></AdminAccess>
                     },
                     {
-                        path:"products",
-                        element:<Products/>
+                        path: "products",
+                        element: <AdminAccess><Products /></AdminAccess>
                     },
                 ]
             }
