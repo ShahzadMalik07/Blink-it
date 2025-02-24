@@ -8,7 +8,7 @@ function AdminAccess({children}) {
   return (
     <div>
       {
-        isAdmin(user.role)? children : <p className='bg-red-300 p-4 text-xl'>Sorry You Dont Have An Access.</p>
+        isAdmin(user.role)? children : <p className='bg-red-300 p-4'>Sorry You Dont Have An Access.</p>
       }
     </div>
   )
