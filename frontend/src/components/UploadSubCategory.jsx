@@ -72,12 +72,11 @@ const UploadSubCategory = ({ close }) => {
           </div>
           <div className='grid gap-2'>
             <label htmlFor="">Select Category</label>
-            <div className='border focus-within:border-primary-200 outline-none'>
+            <div className='border focus-within:border-primary-200 outline-none '>
               <select className='w-full p-2 bg-transparent'>
                 <option value="" disabled>Select Category</option>
 
               </select>
-
             </div>
           </div>
 
