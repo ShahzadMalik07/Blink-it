@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import uploadImage from '../utils/UploadImage'
+import { useSelector } from 'react-redux'
 
 const UploadSubCategory = ({ close }) => {
   const [data, setdata] = useState({
@@ -8,6 +9,10 @@ const UploadSubCategory = ({ close }) => {
     Image: "",
     category: []
   })
+
+
+  const allCategoryData = useSelector(store => store.product.allCategory)
+  console.log(allCategoryData)
   const handleSubmit = () => {
 
   }
@@ -75,7 +80,13 @@ const UploadSubCategory = ({ close }) => {
             <div className='border focus-within:border-primary-200 outline-none '>
               <select className='w-full p-2 bg-transparent'>
                 <option value="" disabled>Select Category</option>
-
+                {
+                  allCategoryData.map((category, index) => {
+                    return (
+                      <option value={category?._id}>{category?.name}</option>
+                    )
+                  })
+                }
               </select>
             </div>
           </div>

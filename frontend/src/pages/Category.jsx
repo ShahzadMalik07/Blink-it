@@ -7,6 +7,7 @@ import NoData from '../components/NoData'
 import UpdateCategory from '../components/UpdateCategory'
 import DialogBox from '../components/DialogBox'
 import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux'
 
 const Category = () => {
   const [openUploadCategory, setopenUploadCategory] = useState(false)
@@ -22,38 +23,19 @@ const Category = () => {
     Image: ""
   })
 
-
-  const getCategoryData = async () => {
-    setloading(true)
-    try {
-      const response = await axios.get("http://localhost:3000/api/category/get-category")
-      const { data: responseData } = response
-
-
-
-      if (responseData.success) {
-        setcategoryData(responseData.data)
-
-
-      }
-    } catch (error) {
-      AxiosToastError(error)
-    } finally {
-      setloading(false)
-    }
-  }
-
+  const allCategoryData = useSelector(store => store.product.allCategory)
   useEffect(() => {
-    getCategoryData()
-
-  }, [])
+    setloading(true)
+    setcategoryData(allCategoryData)
+    setloading(false)
+  }, [allCategoryData])
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete("http://localhost:3000/api/category/delete", {data:categoryId})
+      const response = await axios.delete("http://localhost:3000/api/category/delete", { data: categoryId })
 
       const { data: responseData } = response
-      
+
       if (responseData.success) {
         toast.success(responseData.message)
         getCategoryData()
