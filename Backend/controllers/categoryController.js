@@ -93,7 +93,7 @@ export const deleteCategoryController = async (request, response) => {
     try {
         const {_id } = request.body
         const subCategory = await subCategoryModel.find({
-            categoryId:{
+            category:{
                 "$in":[_id]
             }
         }).countDocuments()

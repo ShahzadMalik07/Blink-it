@@ -96,7 +96,7 @@ const Category = () => {
       {openUploadCategory && <UploadCategory getData={getCategoryData} close={() => setopenUploadCategory(false)} />}
 
       {editOpen && (
-        <UpdateCategory close={() => seteditOpen(false)} getData={getCategoryData} categoryData={editData} />
+        <UpdateCategory close={() => seteditOpen(false)} getData={allCategoryData} categoryData={editData} />
       )}
 
       {

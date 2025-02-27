@@ -8,6 +8,7 @@ import dbConnect from "./config/Dbconnect.js"
 import userRouter from "./routes/user.route.js"
 import categoryRouter from "./routes/category.route.js"
 import imageUploadRouter from "./routes/imageUpload.route.js"
+import subCategoryRouter from "./routes/subCategory.route.js"
 dotenv.config()
 
 
@@ -38,6 +39,7 @@ app.get("/", (request, response) => {
 app.use("/api/user", userRouter)
 app.use("/api/category",categoryRouter)
 app.use("/api/file",imageUploadRouter)
+app.use("/api/sub-category",subCategoryRouter)
 
 dbConnect()
 
