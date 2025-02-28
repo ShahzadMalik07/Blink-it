@@ -13,10 +13,14 @@ const productSlice = createSlice({
         setAllCategory: (state, action) => {
             state.allCategory = [...action.payload]
 
+        },
+        setSubCategory:(state,action)=>{
+            state.subCategory = [...action.payload]
+
         }
     }
 
 })
 
-export const { setAllCategory } = productSlice.actions
+export const { setAllCategory, setSubCategory } = productSlice.actions
 export default productSlice.reducer

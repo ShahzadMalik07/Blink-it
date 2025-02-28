@@ -35,3 +35,34 @@ export const AddSubCategoryController = async (request, response) => {
         })
     }
 }
+
+export const getAllSubCategoryController = async (request,response)=>{
+    try {
+        const subCategoryData = await subCategoryModel.find()
+        if (!subCategoryData) {
+            return response.json({
+                message:"Error Fetching Data",
+                success:false,
+                error:true
+            })
+            
+        }
+        return response.json({
+            message:"Data Fetched Successfully",
+            success:true,
+            error:false,
+            data:subCategoryData
+        })
+
+        
+
+
+    } catch (error) {
+        return response.json({
+            message:error.message || error,
+            success:false,
+            error:true
+        })
+    }
+
+}
