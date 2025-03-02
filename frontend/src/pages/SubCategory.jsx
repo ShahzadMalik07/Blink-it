@@ -18,7 +18,7 @@ const SubCategory = () => {
       </div>
 
       <div>
-        <Table/>
+        <Table data={subCategoryData}/>
       </div>
 
 
