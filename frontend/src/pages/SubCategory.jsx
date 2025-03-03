@@ -2,14 +2,19 @@ import React, { useState } from 'react'
 import UploadSubCategory from '../components/UploadSubCategory'
 import { useSelector } from 'react-redux'
 import Table from '../components/Table'
+import { createColumnHelper } from "@tanstack/react-table" 
+
+
 
 const SubCategory = () => {
   const [openSubCategory, setopenSubcategory] = useState(false)
 
   const subCategoryData = useSelector(store => store.product.subCategory)
-  console.log(subCategoryData)
+  const columnHelper = createColumnHelper()
 
-
+const column = [
+  columnHelper.accessor()
+]
   return (
     <div>
       <div className='flex items-center justify-between p-2 bg-white shadow-md '>

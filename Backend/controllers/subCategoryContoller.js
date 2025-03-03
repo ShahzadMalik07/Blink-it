@@ -38,7 +38,7 @@ export const AddSubCategoryController = async (request, response) => {
 
 export const getAllSubCategoryController = async (request,response)=>{
     try {
-        const subCategoryData = await subCategoryModel.find()
+        const subCategoryData = await subCategoryModel.find().sort({createdAt:-1}).populate("category")
         if (!subCategoryData) {
             return response.json({
                 message:"Error Fetching Data",
