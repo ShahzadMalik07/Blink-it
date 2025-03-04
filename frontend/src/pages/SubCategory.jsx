@@ -12,6 +12,7 @@ const SubCategory = () => {
   const subCategoryData = useSelector(store => store.product.subCategory)
   const columnHelper = createColumnHelper()
 
+  console.log(subCategoryData)
 const column = [
   columnHelper.accessor()
 ]
