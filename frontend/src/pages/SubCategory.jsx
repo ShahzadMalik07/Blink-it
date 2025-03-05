@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import UploadSubCategory from '../components/UploadSubCategory'
 import { useSelector } from 'react-redux'
 import Table from '../components/Table'
-import { createColumnHelper } from "@tanstack/react-table" 
+import { createColumnHelper } from "@tanstack/react-table"
 
 
 
@@ -13,9 +13,17 @@ const SubCategory = () => {
   const columnHelper = createColumnHelper()
 
   console.log(subCategoryData)
-const column = [
-  columnHelper.accessor()
-]
+  const column = [
+    columnHelper.accessor("name", {
+      header: "Name"
+    }),
+    columnHelper.accessor("image", {
+      header: "Image",
+      cell: () => {
+        return <img src="" alt="" />
+      }
+    }),
+  ]
   return (
     <div>
       <div className='flex items-center justify-between p-2 bg-white shadow-md '>
@@ -24,7 +32,7 @@ const column = [
       </div>
 
       <div>
-        <Table data={subCategoryData}/>
+        <Table data={subCategoryData} column={column} />
       </div>
 
 
