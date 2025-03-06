@@ -32,7 +32,7 @@ const SubCategory = () => {
       </div>
 
       <div>
-        <Table data={subCategoryData} column={column} />
+        <Table data={subCategoryData} columns={column} />
       </div>
 
 
