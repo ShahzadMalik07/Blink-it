@@ -20,9 +20,12 @@ const SubCategory = () => {
     columnHelper.accessor("image", {
       header: "Image",
       cell: () => {
-        return <img src="" alt="" />
+        return <img src="" alt="no image" className='w-8 h-8' />
       }
     }),
+    columnHelper.accessor("category",{
+      header:"Category"
+    })
   ]
   return (
     <div>

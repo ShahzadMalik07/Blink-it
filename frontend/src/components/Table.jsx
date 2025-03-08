@@ -9,12 +9,12 @@ const Table = ({data, columns}) => {
   })
   return (
     <div className="p-2">
-      <table>
-        <thead>
+      <table className='w-full'>
+        <thead className='bg-black text-white'>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th key={header.id}>
+                <th className='border' key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -30,7 +30,7 @@ const Table = ({data, columns}) => {
           {table.getRowModel().rows.map(row => (
             <tr key={row.id}>
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>
+                <td className='border' key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
