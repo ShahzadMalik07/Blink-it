@@ -19,8 +19,9 @@ const SubCategory = () => {
     }),
     columnHelper.accessor("image", {
       header: "Image",
-      cell: () => {
-        return <img src="" alt="no image" className='w-8 h-8' />
+      cell: ({row}) => {
+        
+        return <img src={row.original.image} alt={row.original.name} className='w-8 h-8' />
       }
     }),
     columnHelper.accessor("category",{
