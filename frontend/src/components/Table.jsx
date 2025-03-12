@@ -13,6 +13,9 @@ const Table = ({data, columns}) => {
         <thead className='bg-black text-white'>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
+              
+              <th>Sr No.</th>
+              
               {headerGroup.headers.map(header => (
                 <th className='border' key={header.id}>
                   {header.isPlaceholder
@@ -27,8 +30,9 @@ const Table = ({data, columns}) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => (
+          {table.getRowModel().rows.map((row,index) => (
             <tr key={row.id}>
+              <td>{index+1}</td>
               {row.getVisibleCells().map(cell => (
                 <td className='border px-2 py-1' key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
