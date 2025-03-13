@@ -3,6 +3,7 @@ import UploadSubCategory from '../components/UploadSubCategory'
 import { useSelector } from 'react-redux'
 import Table from '../components/Table'
 import { createColumnHelper } from "@tanstack/react-table"
+import ImageView from '../components/ImageView'
 
 
 
@@ -11,6 +12,7 @@ const SubCategory = () => {
 
   const subCategoryData = useSelector(store => store.product.subCategory)
   const columnHelper = createColumnHelper()
+  const [ImageUrl, setImageUrl] = useState("")
 
   console.log(subCategoryData)
   const column = [
@@ -19,13 +21,13 @@ const SubCategory = () => {
     }),
     columnHelper.accessor("image", {
       header: "Image",
-      cell: ({row}) => {
-        
-        return <img src={row.original.image} alt={row.original.name} className='w-8 h-8' />
+      cell: ({ row }) => {
+
+        return <img src={row.original.image} alt={row.original.name} className='w-8 h-8' onClick={()=>{setImageUrl(row.original.image)}} />
       }
     }),
-    columnHelper.accessor("category",{
-      header:"Category"
+    columnHelper.accessor("category", {
+      header: "Category"
     })
   ]
   return (
@@ -42,6 +44,9 @@ const SubCategory = () => {
 
       {
         openSubCategory && <UploadSubCategory close={() => setopenSubcategory(false)} />
+      }
+      {
+        <ImageView url={ImageUrl} />
       }
 
     </div>
