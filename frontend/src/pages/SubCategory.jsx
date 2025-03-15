@@ -46,7 +46,7 @@ const SubCategory = () => {
         openSubCategory && <UploadSubCategory close={() => setopenSubcategory(false)} />
       }
       {
-        <ImageView url={ImageUrl} />
+        <ImageView url={ImageUrl} close={()=>setImageUrl("")} />
       }
 
     </div>
