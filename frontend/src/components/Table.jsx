@@ -32,9 +32,9 @@ const Table = ({data, columns}) => {
         <tbody>
           {table.getRowModel().rows.map((row,index) => (
             <tr key={row.id}>
-              <td>{index+1}</td>
+              <td className='border px-2'>{index+1}</td>
               {row.getVisibleCells().map(cell => (
-                <td className='border px-2 py-1' key={cell.id}>
+                <td className='border px-2 py-1 whitespace-nowrap' key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

@@ -23,7 +23,8 @@ const SubCategory = () => {
       header: "Image",
       cell: ({ row }) => {
 
-        return <img src={row.original.image} alt={row.original.name} className='w-8 h-8' onClick={()=>{setImageUrl(row.original.image)}} />
+        return <div className='flex items-center justify-center'>
+        <img src={row.original.image} alt={row.original.name} className='w-8 h-8' onClick={() => { setImageUrl(row.original.image) }} /></div>
       }
     }),
     columnHelper.accessor("category", {
@@ -45,8 +46,8 @@ const SubCategory = () => {
       {
         openSubCategory && <UploadSubCategory close={() => setopenSubcategory(false)} />
       }
-      {
-        <ImageView url={ImageUrl} close={()=>setImageUrl("")} />
+      {ImageUrl &&
+        <ImageView url={ImageUrl} close={() => setImageUrl("")} />
       }
 
     </div>
