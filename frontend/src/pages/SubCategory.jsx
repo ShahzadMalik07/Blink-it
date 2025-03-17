@@ -24,11 +24,24 @@ const SubCategory = () => {
       cell: ({ row }) => {
 
         return <div className='flex items-center justify-center'>
-        <img src={row.original.image} alt={row.original.name} className='w-8 h-8' onClick={() => { setImageUrl(row.original.image) }} /></div>
+        <img src={row.original.image} alt={row.original.name} className='w-8 h-8 cursor-pointer' onClick={() => { setImageUrl(row.original.image) }} /></div>
       }
     }),
     columnHelper.accessor("category", {
-      header: "Category"
+      header: "Category",
+      cell: ({row})=>{
+        return (
+          <>
+          {
+            row.original.category.map((cat,index)=>{
+              return (
+                <p>{cat.name}</p>
+              )
+            })
+          }
+          </>
+        )
+      }
     })
   ]
   return (
