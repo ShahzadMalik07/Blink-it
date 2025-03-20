@@ -42,6 +42,16 @@ const SubCategory = () => {
           </>
         )
       }
+    }),
+    columnHelper.accessor("_id",{
+      header:"Action",
+      cell:({row})=>{
+        return (
+          <div>
+            <button></button>
+          </div>
+        )
+      }
     })
   ]
   return (
