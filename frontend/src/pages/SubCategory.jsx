@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import Table from '../components/Table'
 import { createColumnHelper } from "@tanstack/react-table"
 import ImageView from '../components/ImageView'
+import { GoPencil } from "react-icons/go";
+import { MdDelete } from "react-icons/md";
 
 
 
@@ -47,8 +49,9 @@ const SubCategory = () => {
       header:"Action",
       cell:({row})=>{
         return (
-          <div>
-            <button></button>
+          <div className='flex items-center justify-center gap-4'>
+            <button className='bg-slate-300 p-2 rounded-full hover:text-green-500'><GoPencil size={20}/></button>
+            <button className='bg-slate-300 p-2 rounded-full hover:text-red-400'><MdDelete size={20}/></button>
           </div>
         )
       }
