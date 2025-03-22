@@ -6,6 +6,7 @@ import { createColumnHelper } from "@tanstack/react-table"
 import ImageView from '../components/ImageView'
 import { GoPencil } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
+import UpdateSubCategory from '../components/UpdateSubCategory'
 
 
 
@@ -74,6 +75,9 @@ const SubCategory = () => {
       }
       {ImageUrl &&
         <ImageView url={ImageUrl} close={() => setImageUrl("")} />
+      }
+      {
+        <UpdateSubCategory/>
       }
 
     </div>
