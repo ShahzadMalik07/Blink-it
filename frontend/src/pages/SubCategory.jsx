@@ -16,6 +16,7 @@ const SubCategory = () => {
   const subCategoryData = useSelector(store => store.product.subCategory)
   const columnHelper = createColumnHelper()
   const [ImageUrl, setImageUrl] = useState("")
+  const [updateSubCategory, setupdateSubCategory] = useState(false)
 
   console.log(subCategoryData)
   const column = [
@@ -51,7 +52,7 @@ const SubCategory = () => {
       cell:({row})=>{
         return (
           <div className='flex items-center justify-center gap-4'>
-            <button className='bg-slate-300 p-2 rounded-full hover:text-green-500'><GoPencil size={20}/></button>
+            <button onClick={()=>setupdateSubCategory(true)} className='bg-slate-300 p-2 rounded-full hover:text-green-500'><GoPencil size={20}/></button>
             <button className='bg-slate-300 p-2 rounded-full hover:text-red-400'><MdDelete size={20}/></button>
           </div>
         )
@@ -77,7 +78,7 @@ const SubCategory = () => {
         <ImageView url={ImageUrl} close={() => setImageUrl("")} />
       }
       {
-        <UpdateSubCategory/>
+       updateSubCategory && <UpdateSubCategory/>
       }
 
     </div>
